@@ -1,7 +1,13 @@
-Basic Validator
-===============
+Basic Validator for Mootools
+============================
 
 This is a basic data validator in Javascript and uses the powerful Mootools library.
+
+Basic Validator takes a minimalist approach towards data validation: it does not include graphical alerts or nifty UI options, nor is it a full-fledged form validation library. Instead, Basic Validator focuses on the essential feature of any validator: the checking of small chunks of data.
+
+Basic Validator can be used on its own, or as a starting point for creating your own custom validation library or functions.
+
+
 
 ### Author:
 
