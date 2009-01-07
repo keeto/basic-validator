@@ -3,6 +3,21 @@ Basic Validator
 
 This is a basic data validator in Javascript and uses the powerful Mootools library.
 
+### Author:
+
+Mark Obcena
+
+### License
+
+Copyright (c) 2008, Mark Joseph Obcena
+
+MIT Style License
+(For more information, see included LICENSE file)
+
+
+
+The Validator Object
+--------------------
 
 ### Usage:
 
@@ -19,10 +34,6 @@ This is a basic data validator in Javascript and uses the powerful Mootools libr
 
 * (*boolean* or *null*) Returns null if the value is not string. Otherwise, returns `true` or `false` depending on whether the value is of a particular datatype.
 
-
-
-The Validator Object
---------------------
 
 Validator.js contains the main script that creates the `Validator` object. The `Validator:test` method is the primary function used to test the value, but there are several other methods available:
 
