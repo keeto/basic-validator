@@ -37,79 +37,79 @@ License:
 */
 
 if ($type(Validator) == "hash") {
-    
+
     /*
-     Rewrites the Validator:addType method to
+     Rewrite the Validator:addType method to
      automatically add magic "isXType" methods.
     */
-    Validator.addType = function (key, value) {
+    Validator.addType = function(key, value){
         if ($type(key) == "string" && $type(value) == "regexp") {
             var name = "is" + key.capitalize();
             this.exps.set(key, value);
-            this.set(name, function (value) { return this.test(value, key); } );
+            this.set(name, function(value){
+				return this.test(value, key);
+			});
             var method = {};
-            method[name] = function () { return this.validate(key); };
+            method[name] = function(){
+				return this.validate(key);
+			};
             Native.implement([String, Element], method);
             return true;
         } else {
             return false;
         }
     };
-    
-    
+
     // Adds new methods to String
-    
     String.implement({
-    
-        validate: function (type) {
+
+        validate: function(type){
             return Validator.test(this, type);
         },
-    
-        isEmpty: function () {
+
+        isEmpty: function(){
             return Validator.isEmpty(this);
         },
-    
-        ofLength: function (min, max) {
+
+        ofLength: function(min, max){
             return Validator.ofLength(this, min, max);
         }
-    
+
     });
-    
-    
+
+	Validator.Stringable = ["input", "textarea"];
+	Validator.canValidate = function(tag){
+		return Validator.Stringable.contains(el.getTag());
+	};
+
     // Adds new methods to Element
-    
     Element.implement({
 
-        stringable: ["input", "textarea"],
-    
-        validate: function (type) {
-            return this.can_validate() ? Validator.validate(this.value, type) : null;
+        validate: function(type){
+            return Validator.canValidate(this) ? Validator.validate(this.value, type) : null;
         },
-    
-        can_validate: function () {
-          return this.stringable.contains( this.getTag() );
+
+        isEmpty: function(){
+            return Validator.canValidate(this) ? Validator.isEmpty(this.value) : null;
         },
-    
-        isEmpty: function () {
-            return this.can_validate() ? Validator.isEmpty(this.value) : null;
-        },
-    
-        ofLength: function (min, max) {
-            return this.can_validate() ? Validator.ofLength(this.value, min, max) : null;
+
+        ofLength: function(min, max){
+            return Validator.canValidate(this) ? Validator.ofLength(this.value, min, max) : null;
         }
-    
+
     });
-    
-    
-    // Add magic "isXType" methods to both String and Element
-    
-    (function() {
+
+
+    // Add magic "isDataType" methods to both String and Element
+    (function(){
         var methods = {};
-        Validator.exps.getKeys().each(function (key) {
+        Validator.exps.getKeys().each(function(key){
                 var name = "is" + key.capitalize();
-                methods[name] = function () { return this.validate(key); };
-        })
-        Native.implement([String, Element], methods)
+                methods[name] = function(){ 
+					return this.validate(key);
+				};
+        });
+        Native.implement([String, Element], methods);
     })();
 
 }

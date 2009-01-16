@@ -40,7 +40,7 @@ License:
 */
 
 var Validator = new Hash({
-    
+
     exps: new Hash({
         "alpha": /^[a-zA-z\s\D]+$/,
         "alphaStrict": /^[a-zA-z]+$/,
@@ -50,37 +50,39 @@ var Validator = new Hash({
 		"email": /^[a-z0-9_+.-]+\@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/,
         "URL": /https?:\/\/([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+([a-zA-Z]{2,9})(:\d{1,4})?([-\w\/#~:.?+=&%@~]*)/
     }),
-    
-    test: function (value, type) {
+
+    test: function(value, type){
         return (this.exps.get(type) || this.exps.get("alphaNum")).test(value);
     },
-    
-    isEmpty: function (value) {
+
+    isEmpty: function(value){
         return value.replace(/\s/g, "").length == 0;
     },
-    
-    ofLength: function (value, min, max) {
+
+    ofLength: function(value, min, max){
         min = min || 0; 
         max = max || 10000000000000000;
         return value.length >= min && value.length <= max;
     },
-    
-    addType: function (key, value) {
+
+    addType: function(key, value){
         if ($type(key) == "string" && $type(value) == "regexp") {
             var name = "is" + key.capitalize();
             this.exps.set(key, value);
-            this.set(name, function (value) { return this.test(value, key); } );
+            this.set(name, function(value){
+				return this.test(value, key);
+			});
             return true;
         } else {
             return false;
         }
     },
-    
-    addTypes: function (pairs) {
+
+    addTypes: function(pairs){
         var that = this;
         if ($type(pairs) == "object") {
             pairs = $H(pairs);
-            pairs.each(function(value, key) {
+            pairs.each(function(value, key){
                that.addType(key, value);
             });
             return true;
@@ -88,11 +90,11 @@ var Validator = new Hash({
             return false;
         }
     }
-    
+
 });
 
 (function() {
-    Validator.exps.each(function (value, key) {
+    Validator.exps.each(function(value, key){
         Validator.addType(key, value);
     });
 })();
