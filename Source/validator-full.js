@@ -52,7 +52,7 @@ var Validator = new Hash({
     }),
     
     test: function (value, type) {
-        return ($type(value) == string) ? (this.exps.get(type) || this.exps.get("alphaNum")).test(value) : null;
+        return ($type(value) == "string") ? (this.exps.get(type) || this.exps.get("alphaNum")).test(value) : null;
     },
     
     isEmpty: function (value) {
