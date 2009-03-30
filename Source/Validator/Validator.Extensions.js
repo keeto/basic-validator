@@ -79,14 +79,14 @@ if ($type(Validator) == "hash") {
 
 	Validator.Stringable = ["input", "textarea"];
 	Validator.canValidate = function(tag){
-		return Validator.Stringable.contains(el.getTag());
+		return Validator.Stringable.contains(el.get('tag'));
 	};
 
     // Adds new methods to Element
     Element.implement({
 
         validate: function(type){
-            return Validator.canValidate(this) ? Validator.validate(this.value, type) : null;
+            return Validator.canValidate(this) ? Validator.test(this.value, type) : null;
         },
 
         isEmpty: function(){
